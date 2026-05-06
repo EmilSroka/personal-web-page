@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import GiftList from "./GiftList";
