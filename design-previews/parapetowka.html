@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Parapetówka u Emila · Szmulki, Praga-Północ</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Lora:ital,wght@0,400;0,500;0,700;1,400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /*
+    AESTHETIC DIRECTION
+    -------------------
+    Tytus Brzozowski's stacked Warsaw watercolours: luminous skies, drifting
+    cumulus, kamienice floating on thin pillars, tiny silhouetted people in
+    yellow / red / purple / cobalt jackets walking the cornices, rings of
+    pigment falling through the sky. The page progresses with the day —
+    golden afternoon at the top (capybara walks to Koneser with balloons)
+    drifting through dusk, twilight, indigo, into deep midnight at Brzeska.
+
+    Background = a single tall vertical gradient on the page wrapper, so the
+    sky literally changes time as the reader scrolls.
+  */
+  :root{
+    /* paper / ink */
+    --cream:#f6efd9;
+    --cream-warm:#efe1bb;
+    --paper:#fbf6e6;
+    --ink:#1a1208;
+    --ink-soft:#3a2d1f;
+    /* Brzozowski palette */
+    --y:#e9b13a;       /* yellow ochre */
+    --r:#c33718;       /* brick red */
+    --g:#3a8a52;       /* leaf green */
+    --b:#1f4e8c;       /* cobalt */
+    --p:#5a3a6e;       /* purple */
+    --teal:#2b7a8c;
+    --rose:#c46a5b;
+    /* night accents */
+    --moonlight:#e8d9a6;
+    --night-blue:#0f1530;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    color:var(--ink);
+    font-family:'Lora',Georgia,serif;font-weight:400;font-size:18px;line-height:1.65;
+    overflow-x:hidden;
+    background:#0f1530;
+  }
+
+  /* ================================================== */
+  /* THE TIME-PROGRESSING SKY                              */
+  /* ================================================== */
+  /* The page itself carries a long vertical gradient.
+     Scroll = progression of evening into night.         */
+  .page{
+    position:relative;z-index:1;width:100%;
+    background:
+      /* drifting cumulus that fades by night */
+      radial-gradient(ellipse 1100px 320px at 18% 5%,  rgba(255,255,255,.75) 0%, transparent 60%),
+      radial-gradient(ellipse  900px 280px at 78% 14%, rgba(255,255,255,.65) 0%, transparent 60%),
+      radial-gradient(ellipse 1200px 360px at 35% 22%, rgba(255,250,235,.65) 0%, transparent 65%),
+      radial-gradient(ellipse  800px 260px at 85% 32%, rgba(255,235,200,.55) 0%, transparent 60%),
+      radial-gradient(ellipse 1000px 300px at 25% 42%, rgba(232,180,150,.40) 0%, transparent 65%),
+      radial-gradient(ellipse  900px 280px at 75% 55%, rgba(160,100,140,.30) 0%, transparent 65%),
+      radial-gradient(ellipse  700px 240px at 30% 70%, rgba(50,60,140,.30)   0%, transparent 65%),
+      radial-gradient(ellipse  500px 200px at 80% 85%, rgba(20,30,80,.40)    0%, transparent 70%),
+      /* the time-of-day vertical gradient */
+      linear-gradient(180deg,
+        #f3deaa 0%,        /* late afternoon golden glow */
+        #d4c896 8%,        /* warm sunset light */
+        #b9d2dd 18%,       /* pale blue sky */
+        #c0c5d4 28%,       /* cool dusk */
+        #c89aa4 38%,       /* peach-rose dusk */
+        #9e6f8e 48%,       /* mauve twilight */
+        #5a4a82 58%,       /* deep twilight purple */
+        #2e3568 70%,       /* indigo */
+        #15203f 82%,       /* night blue */
+        #0a0e22 92%,       /* deep night */
+        #060812 100%       /* black-blue, 04:00 */
+      );
+  }
+  /* paper grain overlay across the whole page */
+  .page::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.18;
+    background-image:radial-gradient(circle, rgba(26,18,8,.55) .5px, transparent 1px);
+    background-size:3px 3px;mix-blend-mode:multiply;
+  }
+  /* faint vertical "rain" at night-bottom — adds Brzeska atmosphere */
+  .page::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:50%;z-index:0;pointer-events:none;
+    background:
+      repeating-linear-gradient(178deg, transparent 0 22px, rgba(232,217,166,.045) 22px 23px),
+      radial-gradient(ellipse 600px 200px at 82% 88%, rgba(232,217,166,.10) 0%, transparent 70%);
+    opacity:.7;
+  }
+
+  .container{max-width:780px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+  /* ================================================== */
+  /* TYPOGRAPHY                                            */
+  /* ================================================== */
+  .banner-text,h1,h2{font-family:'DM Serif Display',serif;font-weight:400;line-height:.95;letter-spacing:-.005em}
+  h1{font-size:clamp(56px,9vw,108px)}
+  h2{font-size:clamp(34px,5.4vw,56px)}
+  h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;line-height:1.15;letter-spacing:-.01em;font-variation-settings:'opsz' 144,'SOFT' 50}
+  .italic{font-family:'DM Serif Display',serif;font-style:italic}
+  .kicker{
+    font-family:'Lora',serif;font-weight:500;font-size:11px;letter-spacing:.36em;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  .kicker::before,.kicker::after{content:' ❋ ';color:var(--y);letter-spacing:0;font-size:12px}
+  .lede{font-size:20px;line-height:1.55;color:var(--ink-soft);max-width:60ch}
+  .hand{font-family:'Caveat',cursive;font-weight:700;color:var(--r);font-size:1.4em;line-height:1}
+  .quiet{color:var(--ink-soft);font-style:italic}
+
+  /* color overrides for sections that sit on the night portion */
+  .on-night{color:var(--cream)}
+  .on-night .kicker{color:var(--moonlight)}
+  .on-night .kicker::before,.on-night .kicker::after{color:var(--moonlight)}
+  .on-night .lede{color:#dccfb0}
+  .on-night .quiet{color:#bcb18a}
+  .on-night a{color:var(--moonlight)}
+
+  /* ================================================== */
+  /* HERO — Koneser daytime                                */
+  /* ================================================== */
+  .hero{position:relative;z-index:3;padding:0;margin:0}
+  .hero img{
+    width:100%;height:auto;display:block;
+    -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 88%, transparent 100%);
+            mask-image:linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 88%, transparent 100%);
+  }
+
+  /* ================================================== */
+  /* THE BANNER (PARAPETÓWKA) — like Brzozowski's SZMULKI  */
+  /* ================================================== */
+  .banner{
+    position:relative;z-index:4;text-align:center;
+    margin:-32px auto 0;padding:32px 16px 8px;
+  }
+  .plaque{
+    display:inline-block;position:relative;
+    background:var(--cream);
+    padding:18px 56px 22px;
+    transform:rotate(-1.2deg);
+    box-shadow:
+      0 14px 28px rgba(20,15,8,.25),
+      0 2px 0 rgba(20,15,8,.08),
+      inset 0 0 0 1px rgba(20,15,8,.08);
+  }
+  .plaque::before,.plaque::after{
+    /* tiny cord ends, like the SZMULKI banner */
+    content:'';position:absolute;width:14px;height:14px;background:var(--ink);border-radius:50%;
+    top:-4px;
+  }
+  .plaque::before{left:-4px}
+  .plaque::after{right:-4px}
+  .plaque .banner-text{
+    font-size:clamp(56px,11vw,128px);color:var(--b);
+    text-shadow:1px 2px 0 rgba(31,78,140,.15);
+    letter-spacing:.005em;
+  }
+  /* the SVG strings hanging the banner */
+  .banner svg.cords{
+    display:block;margin:0 auto -12px;width:100%;max-width:560px;height:48px;
+  }
+
+  .subtitle{
+    margin:24px auto 0;text-align:center;
+    font-family:'Caveat',cursive;font-weight:700;font-size:32px;color:var(--b);
+  }
+  .subtitle b{color:var(--r);font-weight:700}
+
+  /* ================================================== */
+  /* DECORATIVE STRIPS — tiny floating people + rings      */
+  /* ================================================== */
+  .figures{display:block;margin:48px 0;position:relative;z-index:2}
+  .figures svg{width:100%;height:auto;max-height:96px;display:block;overflow:visible}
+  @keyframes floaty{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-4px)}
+  }
+  .float{animation:floaty 5s ease-in-out infinite}
+  .float.b{animation-delay:-1.7s}
+  .float.c{animation-delay:-3.1s}
+
+  /* ================================================== */
+  /* SECTIONS                                              */
+  /* ================================================== */
+  section{padding:48px 0;position:relative;z-index:2}
+  .center{text-align:center}
+  .narrow{max-width:560px;margin:0 auto}
+
+  /* a thin watercolour underline that bleeds */
+  .wash-rule{
+    height:18px;margin:48px auto;width:100%;max-width:380px;
+    background:
+      radial-gradient(ellipse 50% 80% at 50% 50%, rgba(31,78,140,.5) 0%, transparent 70%),
+      radial-gradient(ellipse 28% 60% at 22% 50%, rgba(233,177,58,.55) 0%, transparent 70%),
+      radial-gradient(ellipse 28% 60% at 78% 50%, rgba(195,55,24,.55) 0%, transparent 70%);
+    filter:blur(.5px);
+  }
+  .wash-rule.night{
+    background:
+      radial-gradient(ellipse 50% 80% at 50% 50%, rgba(232,217,166,.45) 0%, transparent 70%),
+      radial-gradient(ellipse 28% 60% at 22% 50%, rgba(232,217,166,.25) 0%, transparent 70%),
+      radial-gradient(ellipse 28% 60% at 78% 50%, rgba(232,217,166,.25) 0%, transparent 70%);
+  }
+
+  /* drop cap for opening narrative */
+  .opening p:first-of-type::first-letter{
+    font-family:'DM Serif Display',serif;font-style:italic;
+    float:left;font-size:96px;line-height:.78;
+    margin:8px 14px 0 0;color:var(--r);
+  }
+
+  /* ================================================== */
+  /* PAPER PLAQUES (cards floating on sky)                 */
+  /* ================================================== */
+  .plaque-card{
+    background:var(--paper);
+    color:var(--ink);
+    padding:36px 32px;
+    box-shadow:0 24px 60px rgba(15,15,30,.32), 0 2px 0 rgba(15,15,30,.06);
+    position:relative;
+    transform:rotate(-.4deg);
+  }
+  .plaque-card.tilt-r{transform:rotate(.6deg)}
+  .plaque-card::before{
+    content:'';position:absolute;top:-10px;left:24px;width:64px;height:18px;
+    background:rgba(233,177,58,.85);transform:rotate(-3deg);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+  }
+  .plaque-card::after{
+    content:'';position:absolute;top:-10px;right:24px;width:64px;height:18px;
+    background:rgba(233,177,58,.85);transform:rotate(2deg);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+  }
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin-top:22px}
+  .info-row{padding:10px 0;border-bottom:1px dotted rgba(20,15,8,.22)}
+  .info-row:last-child,.info-row:nth-last-child(2){border-bottom:none}
+  .info-row dt{font-family:'Lora';font-style:italic;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+  .info-row dd{font-family:'DM Serif Display',serif;font-size:22px;line-height:1.15}
+  .info-row dd em{font-style:italic;color:var(--b)}
+  @media(max-width:560px){.info-grid{grid-template-columns:1fr}}
+
+  /* ================================================== */
+  /* PLACEHOLDER for future generated graphics              */
+  /* ================================================== */
+  .ph{
+    aspect-ratio:5/4;width:100%;
+    background:
+      repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,.05) 14px 15px),
+      radial-gradient(ellipse at 30% 30%, rgba(255,255,255,.18) 0%, transparent 65%);
+    border:1px solid rgba(20,15,8,.18);
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:32px;position:relative;
+  }
+  .ph::before{
+    content:'';position:absolute;top:18px;left:18px;right:18px;bottom:18px;
+    border:1px dashed rgba(20,15,8,.28);
+  }
+  .ph .lbl{
+    position:relative;z-index:2;
+    font-family:'Caveat',cursive;font-weight:700;font-size:24px;color:var(--ink-soft);
+  }
+  .ph .lbl small{
+    display:block;font-family:'Lora';font-weight:400;font-style:italic;font-size:13px;
+    letter-spacing:.04em;color:var(--ink-soft);margin-top:8px;line-height:1.4;
+    opacity:.85;
+  }
+  .ph .lbl code{font-family:'Lora',monospace;font-size:11px;letter-spacing:.05em;color:var(--b)}
+  /* placeholder on dark background */
+  .on-night .ph{
+    background:
+      repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,.05) 14px 15px),
+      radial-gradient(ellipse at 30% 30%, rgba(232,217,166,.12) 0%, transparent 65%);
+    border-color:rgba(232,217,166,.25);
+  }
+  .on-night .ph::before{border-color:rgba(232,217,166,.28)}
+  .on-night .ph .lbl{color:#dccfb0}
+  .on-night .ph .lbl small{color:#bcb18a}
+  .on-night .ph .lbl code{color:var(--moonlight)}
+
+  /* ================================================== */
+  /* GIFT REGISTRY                                          */
+  /* ================================================== */
+  .gifts{margin-top:24px}
+  .gift{
+    display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;
+    padding:22px 0;border-bottom:1px solid rgba(20,15,8,.18);
+  }
+  .gift:first-of-type{border-top:1px solid rgba(20,15,8,.18)}
+  .gift .num{
+    font-family:'DM Serif Display',serif;font-style:italic;
+    font-size:42px;line-height:1;color:var(--r);width:48px;text-align:center;
+  }
+  .gift h3{font-weight:600}
+  .gift .desc{font-family:'Lora';font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:4px;line-height:1.4}
+  .gift .price{
+    font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:var(--ink-soft);
+    display:block;margin-top:6px;
+  }
+  .gift.taken{opacity:.55}
+  .gift.taken .desc::before{content:'zaklepane przez ';font-style:italic;color:var(--ink-soft)}
+  .btn{
+    background:transparent;color:var(--ink);
+    border:1.5px solid var(--ink);
+    padding:11px 22px;
+    font-family:'Fraunces',serif;font-weight:600;font-size:14px;letter-spacing:.04em;
+    cursor:pointer;
+    transition:all .18s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{background:var(--ink);color:var(--paper)}
+  .btn:focus-visible{outline:2px solid var(--y);outline-offset:3px}
+  .btn[disabled]{cursor:not-allowed;border-style:dashed;color:var(--ink-soft);text-decoration:line-through}
+  .btn[disabled]:hover{background:transparent;color:var(--ink-soft)}
+  /* gift list at night switches to cream-on-dark */
+  .on-night .gift{border-color:rgba(232,217,166,.25)}
+  .on-night .gift:first-of-type{border-top-color:rgba(232,217,166,.25)}
+  .on-night .gift h3{color:var(--cream)}
+  .on-night .gift .desc{color:#bcb18a}
+  .on-night .gift .price{color:#bcb18a}
+  .on-night .gift.taken .desc::before{color:#bcb18a}
+  .on-night .gift .num{color:var(--y)}
+  .on-night .btn{color:var(--cream);border-color:var(--cream)}
+  .on-night .btn:hover{background:var(--cream);color:var(--ink)}
+
+  @media(max-width:540px){
+    .gift{grid-template-columns:auto 1fr;row-gap:14px}
+    .gift .btn{grid-column:span 2;justify-self:start}
+    .gift .num{font-size:32px;width:36px}
+  }
+
+  /* ================================================== */
+  /* HOUSE RULES                                            */
+  /* ================================================== */
+  .rules{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px 36px}
+  .rule-item{padding:14px 0;border-top:1px solid rgba(20,15,8,.18)}
+  .rule-item dt{font-family:'Lora';font-style:italic;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+  .rule-item dd{font-family:'DM Serif Display',serif;font-size:19px;line-height:1.25}
+  .on-night .rule-item{border-color:rgba(232,217,166,.25)}
+  .on-night .rule-item dt{color:#bcb18a}
+  .on-night .rule-item dd{color:var(--cream)}
+  @media(max-width:560px){.rules{grid-template-columns:1fr}}
+
+  /* ================================================== */
+  /* FOOTER ART (Brzeska night)                             */
+  /* ================================================== */
+  .footer-art{padding:0;margin-top:64px;position:relative;z-index:3}
+  .footer-art img{
+    width:100%;height:auto;display:block;
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, rgba(0,0,0,1) 14%);
+            mask-image:linear-gradient(180deg, transparent 0%, rgba(0,0,0,1) 14%);
+  }
+
+  .signoff{padding:64px 24px 96px;text-align:center;color:var(--cream)}
+  .signoff h2{color:var(--cream)}
+  .signoff h2 em{color:var(--moonlight);font-style:italic}
+  .signoff .time{
+    font-family:'DM Serif Display',serif;font-style:italic;
+    font-size:clamp(72px,12vw,148px);color:var(--moonlight);line-height:.9;
+    text-shadow:0 0 32px rgba(232,217,166,.2);
+  }
+  .signoff .name{font-family:'Caveat',cursive;font-weight:700;font-size:42px;color:var(--moonlight);margin-top:24px}
+  .signoff .name::before{content:'— '}
+  .signoff .lede{color:#dccfb0;margin:24px auto 0;max-width:38ch}
+
+  /* small a11y / link */
+  a{color:var(--b);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{color:var(--r)}
+
+  /* ================================================== */
+  /* SVG floating architecture (decorative)                 */
+  /* ================================================== */
+  .floating-arch{margin:32px 0;display:block}
+  .floating-arch svg{width:100%;height:auto;display:block;overflow:visible}
+
+  /* gentle clouds drift */
+  @keyframes drift{from{transform:translateX(-12px)}to{transform:translateX(12px)}}
+  .drift{animation:drift 22s ease-in-out infinite alternate}
+</style></head>
+<body>
+
+<div class="page">
+
+  <!-- =================================================== -->
+  <!-- HERO — capybara at Koneser, daytime, balloons        -->
+  <!-- (the START — host walks to his own party)            -->
+  <!-- =================================================== -->
+  <figure class="hero">
+    <img src="images/hero.png" alt="Kapibara w dresie idzie na parapetówkę przez Koneser, balony, Muzeum Wódki Polskiej w tle, popołudniowe światło">
+  </figure>
+
+  <!-- =================================================== -->
+  <!-- BANNER (PARAPETÓWKA) — like the SZMULKI banner       -->
+  <!-- =================================================== -->
+  <div class="banner">
+    <svg class="cords" viewBox="0 0 560 40" aria-hidden="true">
+      <path d="M40 6 Q200 -4 280 30" stroke="#1a1208" stroke-width="1.2" fill="none"/>
+      <path d="M520 6 Q360 -4 280 30" stroke="#1a1208" stroke-width="1.2" fill="none"/>
+    </svg>
+    <div class="plaque">
+      <span class="banner-text">PARAPETÓWKA</span>
+    </div>
+    <p class="subtitle">u Emila &nbsp;·&nbsp; sobota <b>20 czerwca</b> &nbsp;·&nbsp; Szmulki</p>
+  </div>
+
+  <!-- decorative figures: people walking with rings (Brzozowski) -->
+  <div class="figures container">
+    <svg viewBox="0 0 780 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <line x1="20" y1="76" x2="760" y2="76" stroke="#1a1208" stroke-width=".7" stroke-dasharray="2 5" opacity=".45"/>
+      <!-- a parade of tiny people + falling rings -->
+      <g class="float">
+        <g transform="translate(60,40)"><rect x="-6" y="0" width="12" height="20" fill="#e9b13a"/><rect x="-6" y="20" width="5" height="16" fill="#1a1208"/><rect x="1" y="20" width="5" height="16" fill="#1a1208"/><circle cx="0" cy="-5" r="5" fill="#d4a777"/></g>
+      </g>
+      <circle cx="105" cy="64" r="6" fill="none" stroke="#e9b13a" stroke-width="2"/>
+      <g class="float b">
+        <g transform="translate(150,32)"><rect x="-6" y="0" width="12" height="20" fill="#c33718"/><rect x="-6" y="20" width="5" height="22" fill="#1a1208"/><rect x="1" y="20" width="5" height="22" fill="#1a1208"/><circle cx="0" cy="-5" r="5" fill="#d4a777"/></g>
+      </g>
+      <g class="float c">
+        <g transform="translate(230,42)"><rect x="-6" y="0" width="12" height="18" fill="#5a3a6e"/><rect x="-6" y="18" width="5" height="16" fill="#1a1208"/><rect x="1" y="18" width="5" height="16" fill="#1a1208"/><circle cx="0" cy="-4" r="4" fill="#d4a777"/></g>
+      </g>
+      <circle cx="280" cy="68" r="4" fill="none" stroke="#1f4e8c" stroke-width="1.5"/>
+      <g class="float">
+        <g transform="translate(330,30)">
+          <rect x="-6" y="0" width="12" height="20" fill="#1f4e8c"/>
+          <line x1="-6" y1="2" x2="-15" y2="-7" stroke="#1f4e8c" stroke-width="3"/>
+          <line x1="6" y1="2" x2="15" y2="-7" stroke="#1f4e8c" stroke-width="3"/>
+          <rect x="-6" y="20" width="5" height="22" fill="#1a1208"/><rect x="1" y="20" width="5" height="22" fill="#1a1208"/>
+          <circle cx="0" cy="-5" r="5" fill="#d4a777"/>
+        </g>
+      </g>
+      <g class="float b">
+        <g transform="translate(420,40)"><rect x="-6" y="0" width="12" height="18" fill="#e9b13a"/><rect x="-6" y="18" width="5" height="16" fill="#1a1208"/><rect x="1" y="18" width="5" height="16" fill="#1a1208"/><circle cx="0" cy="-4" r="4" fill="#d4a777"/></g>
+      </g>
+      <circle cx="470" cy="66" r="5" fill="none" stroke="#c33718" stroke-width="2"/>
+      <g class="float c">
+        <g transform="translate(520,32)"><rect x="-6" y="0" width="12" height="20" fill="#c33718"/><rect x="-6" y="20" width="5" height="20" fill="#1a1208"/><rect x="1" y="20" width="5" height="20" fill="#1a1208"/><circle cx="0" cy="-5" r="5" fill="#d4a777"/></g>
+      </g>
+      <g class="float">
+        <g transform="translate(600,42)"><rect x="-6" y="0" width="12" height="16" fill="#5a3a6e"/><rect x="-6" y="16" width="5" height="14" fill="#1a1208"/><rect x="1" y="16" width="5" height="14" fill="#1a1208"/><circle cx="0" cy="-3" r="4" fill="#d4a777"/></g>
+      </g>
+      <circle cx="660" cy="68" r="4" fill="none" stroke="#e9b13a" stroke-width="1.5"/>
+      <g class="float b">
+        <g transform="translate(710,30)">
+          <rect x="-6" y="0" width="12" height="20" fill="#e9b13a"/>
+          <line x1="6" y1="2" x2="15" y2="-9" stroke="#e9b13a" stroke-width="3"/>
+          <rect x="-6" y="20" width="5" height="22" fill="#1a1208"/><rect x="1" y="20" width="5" height="22" fill="#1a1208"/>
+          <circle cx="0" cy="-5" r="5" fill="#d4a777"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- =================================================== -->
+  <!-- OPENING NARRATIVE (still in golden-hour part of sky) -->
+  <!-- =================================================== -->
+  <section class="container narrow opening">
+    <div class="kicker center" style="margin-bottom:24px">List zapraszający</div>
+    <p class="lede">Po dwóch latach spędzonych w pokoju czternaście metrów kwadratowych — z widokiem na klatkę schodową, prysznicem w przedsionku i sąsiadem grającym Cohena o czwartej rano — mam wreszcie własne cztery ściany. Nie jest to mieszkanie, w którym wszystko działa. Domofon na przykład działa tylko czasem. Klucz do bramy lubi się zaciąć. Pod tapetą znaleźliśmy gazetę z 1973 roku z reklamą lodówki marki "Mińsk". Ale jest <em class="italic" style="color:var(--b)">nasze</em>.</p>
+    <p style="margin-top:24px">Mieszkam na <strong>Szmulkach</strong>. Ta cześć Pragi-Północ, której jeszcze nie zdążyli wyremontować na biura. <strong>Bazylika Najświętszego Serca</strong> dzwoni o szóstej i o szesnastej. <strong>Bazar Różyckiego</strong> wciąż stoi, choć z każdym rokiem coraz ciszej. A obok mnie, dosłownie po sąsiedzku — <strong>Jamnik</strong>: pięćset osiem metrów bloku przy Kijowskiej 11, najdłuższy w Warszawie. Mieszka w nim mniej więcej tyle ludzi, co w średniej polskiej wsi. Sąsiedzi z trzeciej klatki nigdy nie spotkali sąsiadów z jedenastej.</p>
+    <p style="margin-top:24px">Wpadnij. Drugie podwórko, druga klatka, drugie piętro. Jeśli domofon zachowa się <em>kapryśnie</em> — pomijaj go i dzwoń na komórkę. <span class="hand">Otwarte od dziewiętnastej, do śniadania.</span></p>
+  </section>
+
+  <div class="wash-rule" aria-hidden="true"></div>
+
+  <!-- =================================================== -->
+  <!-- INFO PLAQUE                                            -->
+  <!-- =================================================== -->
+  <section class="container narrow">
+    <div class="kicker center" style="margin-bottom:32px">Praktyka</div>
+    <article class="plaque-card">
+      <h2 class="center" style="margin-bottom:8px">Sobota, <span class="italic">20 czerwca</span>.</h2>
+      <p class="center quiet" style="margin-bottom:8px">od dziewiętnastej, do śniadania</p>
+      <dl class="info-grid">
+        <div class="info-row"><dt>Adres</dt><dd>ul. Kijowska 17/3</dd></div>
+        <div class="info-row"><dt>Wejście</dt><dd>brama 2 · klatka 2 · 2. piętro</dd></div>
+        <div class="info-row"><dt>Tramwaj</dt><dd><em>3 · 6 · 26</em> → "Bazylika"</dd></div>
+        <div class="info-row"><dt>Domofon</dt><dd>kapryśny — dzwoń na komórkę</dd></div>
+        <div class="info-row"><dt>Dress code</dt><dd>wygodnie, w skarpetkach</dd></div>
+        <div class="info-row"><dt>RSVP</dt><dd>do <em>15 czerwca</em></dd></div>
+      </dl>
+    </article>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- PLACEHOLDER #1 — Brzozowski-style additional graphic  -->
+  <!-- =================================================== -->
+  <section class="container narrow">
+    <div class="ph">
+      <div class="lbl">tu wstaw kolejną akwarelę<small>Jamnik z lotu ptaka — 508&nbsp;m bloku floating against drifting cumulus, w stylu Tytusa Brzozowskiego, drobne sylwetki w żółtych i czerwonych kurtkach na dachu<br><code>images/middle-1.png</code></small></div>
+    </div>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- LORE                                                   -->
+  <!-- =================================================== -->
+  <section class="container narrow">
+    <div class="kicker center" style="margin-bottom:24px">Trochę okolicy</div>
+    <h2 class="center"><span class="italic">Co warto</span><br>zobaczyć po drodze.</h2>
+    <p class="lede" style="margin-top:32px">Jak masz pół godziny przed dziewiętnastą — wpadnij na <strong>Bazar Różyckiego</strong> po pyzy z flakami; albo zajrzyj do <strong>Chmurów</strong> na 11 Listopada, na piwo na pinkowym stołku w bramie. Jeśli złota godzina trafi się dobrze, idź pod <strong>Sobór św. Marii Magdaleny</strong> popatrzeć jak słońce schodzi po cebulastych kopułach. A potem przejdź na piechotę przez Targową na Szmulki — tam już nie ma muzeów wódki, są tylko prawdziwe podwórka, prawdziwe kapliczki i mój Jamnik.</p>
+  </section>
+
+  <div class="wash-rule" aria-hidden="true"></div>
+
+  <!-- =================================================== -->
+  <!-- PLACEHOLDER #2                                         -->
+  <!-- =================================================== -->
+  <section class="container narrow">
+    <div class="ph" style="aspect-ratio:7/5">
+      <div class="lbl">tu wstaw drugą akwarelę<small>Bazylika na Kawęczyńskiej + sobór + kamienice — stos architektury w stylu Brzozowskiego<br><code>images/middle-2.png</code></small></div>
+    </div>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- GIFT REGISTRY                                           -->
+  <!-- =================================================== -->
+  <section class="container narrow">
+    <div class="kicker center" style="margin-bottom:24px">Rejestr darów</div>
+    <h2 class="center"><span class="italic">Lista,</span><br>którą można zaklepać.</h2>
+    <p class="lede" style="margin:24px auto 0;text-align:center">Klasyczna parapetówka kończy się trzema identycznymi deskami do krojenia. Spróbujmy tym razem inaczej. Zaklep co przynosisz — bez logowania, bez maili, bez ceremonii. Zmienisz zdanie — zaklep z powrotem.</p>
+
+    <div class="gifts">
+      <div class="gift">
+        <div class="num">i</div>
+        <div>
+          <h3>Patelnia żeliwna</h3>
+          <p class="desc">Ciężka jak sumienie. Przeżyje gospodarza i prawdopodobnie tę kamienicę.</p>
+          <span class="price">~ 280 zł</span>
+        </div>
+        <button class="btn">Zaklepuję</button>
+      </div>
+
+      <div class="gift taken">
+        <div class="num">ii</div>
+        <div>
+          <h3>Żubrówka biała</h3>
+          <p class="desc">Martę.</p>
+          <span class="price">~ 80 zł</span>
+        </div>
+        <button class="btn" disabled>Zaklepane</button>
+      </div>
+
+      <div class="gift">
+        <div class="num">iii</div>
+        <div>
+          <h3>Monstera deliciosa</h3>
+          <p class="desc">Wymaga światła i cierpliwości. Mam jedno i drugie tylko czasem.</p>
+          <span class="price">~ 120 zł</span>
+        </div>
+        <button class="btn">Zaklepuję</button>
+      </div>
+
+      <div class="gift">
+        <div class="num">iv</div>
+        <div>
+          <h3>Pled wełniany</h3>
+          <p class="desc">Na wieczory szmulkowskie, kiedy ogrzewanie nie nadąża.</p>
+          <span class="price">~ 200 zł</span>
+        </div>
+        <button class="btn">Zaklepuję</button>
+      </div>
+
+      <div class="gift">
+        <div class="num">v</div>
+        <div>
+          <h3>Sól i chleb</h3>
+          <p class="desc">Tradycja. Klucz do dobrobytu i zwykłego smaku.</p>
+          <span class="price">~ 25 zł</span>
+        </div>
+        <button class="btn">Zaklepuję</button>
+      </div>
+
+      <div class="gift">
+        <div class="num">vi</div>
+        <div>
+          <h3>Książka kucharska Ottolenghiego</h3>
+          <p class="desc">Bo na Bazarze są papryczki, a ja nie wiem co z nimi robić.</p>
+          <span class="price">~ 150 zł</span>
+        </div>
+        <button class="btn">Zaklepuję</button>
+      </div>
+
+      <div class="gift">
+        <div class="num">vii</div>
+        <div>
+          <h3>Coś własnego</h3>
+          <p class="desc">Nalewka babci, książka, której nie chcesz mieć drugi raz, doniczka z czymś żywym. Cokolwiek.</p>
+          <span class="price">— bezcenne</span>
+        </div>
+        <button class="btn">Zaklepuję</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="wash-rule" aria-hidden="true"></div>
+
+  <!-- =================================================== -->
+  <!-- PLACEHOLDER #3 — entering twilight                    -->
+  <!-- =================================================== -->
+  <section class="container narrow on-night">
+    <div class="ph" style="aspect-ratio:1/1">
+      <div class="lbl">tu wstaw trzecią akwarelę<small>kapliczka podwórzowa o zmierzchu, fairy lights i kapibara w bramie<br><code>images/middle-3.png</code></small></div>
+    </div>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- HOUSE RULES — now on the night part of the sky        -->
+  <!-- =================================================== -->
+  <section class="container narrow on-night">
+    <div class="kicker center" style="margin-bottom:24px">Zasady domu</div>
+    <h2 class="center"><span class="italic">Krótka</span><br>lista.</h2>
+    <dl class="rules">
+      <div class="rule-item"><dt>Buty</dt><dd>zostawiamy w przedpokoju · są kapcie</dd></div>
+      <div class="rule-item"><dt>Palenie</dt><dd>balkon, proszę · Praga to nie kawiarnia</dd></div>
+      <div class="rule-item"><dt>Pies</dt><dd>z radością · kot dogada się przez ścianę</dd></div>
+      <div class="rule-item"><dt>Dziecko</dt><dd>do 22:00 — potem śpi w sypialni</dd></div>
+      <div class="rule-item"><dt>Sąsiedzi</dt><dd>uprzedzeni — ale nie nadużywajmy</dd></div>
+      <div class="rule-item"><dt>Muzyka</dt><dd>do północy głośna · potem szept</dd></div>
+    </dl>
+  </section>
+
+  <!-- decorative figures — at night, with cobalt accents -->
+  <div class="figures container" style="margin-top:48px">
+    <svg viewBox="0 0 780 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <line x1="20" y1="76" x2="760" y2="76" stroke="#e8d9a6" stroke-width=".7" stroke-dasharray="2 5" opacity=".5"/>
+      <g class="float"><g transform="translate(120,42)"><rect x="-6" y="0" width="12" height="18" fill="#1f4e8c"/><rect x="-6" y="18" width="5" height="16" fill="#0a0a18"/><rect x="1" y="18" width="5" height="16" fill="#0a0a18"/><circle cx="0" cy="-3" r="4" fill="#d4a777"/></g></g>
+      <circle cx="180" cy="68" r="5" fill="none" stroke="#e9b13a" stroke-width="2"/>
+      <g class="float b"><g transform="translate(240,32)"><rect x="-6" y="0" width="12" height="20" fill="#c33718"/><rect x="-6" y="20" width="5" height="22" fill="#0a0a18"/><rect x="1" y="20" width="5" height="22" fill="#0a0a18"/><circle cx="0" cy="-5" r="5" fill="#d4a777"/></g></g>
+      <g class="float c"><g transform="translate(330,40)"><rect x="-6" y="0" width="12" height="18" fill="#5a3a6e"/><rect x="-6" y="18" width="5" height="16" fill="#0a0a18"/><rect x="1" y="18" width="5" height="16" fill="#0a0a18"/><circle cx="0" cy="-4" r="4" fill="#d4a777"/></g></g>
+      <circle cx="390" cy="68" r="4" fill="none" stroke="#1f4e8c" stroke-width="1.5"/>
+      <g class="float"><g transform="translate(450,30)"><rect x="-6" y="0" width="12" height="20" fill="#e9b13a"/><rect x="-6" y="20" width="5" height="22" fill="#0a0a18"/><rect x="1" y="20" width="5" height="22" fill="#0a0a18"/><circle cx="0" cy="-5" r="5" fill="#d4a777"/></g></g>
+      <g class="float b"><g transform="translate(540,42)"><rect x="-6" y="0" width="12" height="16" fill="#1f4e8c"/><rect x="-6" y="16" width="5" height="14" fill="#0a0a18"/><rect x="1" y="16" width="5" height="14" fill="#0a0a18"/><circle cx="0" cy="-3" r="4" fill="#d4a777"/></g></g>
+      <circle cx="600" cy="66" r="6" fill="none" stroke="#c33718" stroke-width="2"/>
+      <g class="float c"><g transform="translate(660,30)"><rect x="-6" y="0" width="12" height="20" fill="#e9b13a"/><line x1="-6" y1="2" x2="-15" y2="-9" stroke="#e9b13a" stroke-width="3"/><rect x="-6" y="20" width="5" height="22" fill="#0a0a18"/><rect x="1" y="20" width="5" height="22" fill="#0a0a18"/><circle cx="0" cy="-5" r="5" fill="#d4a777"/></g></g>
+    </svg>
+  </div>
+
+  <!-- =================================================== -->
+  <!-- FOOTER ART — capybara at Brzeska, 04:00, smoking      -->
+  <!-- =================================================== -->
+  <figure class="footer-art">
+    <img src="images/footer.png" alt="Kapibara siedzi na Brzeskiej o czwartej nad ranem, pali papierosa, termos obok, tablica Brzeska Praga-Północ na ścianie">
+  </figure>
+
+  <!-- =================================================== -->
+  <!-- SIGN OFF — deep night                                  -->
+  <!-- =================================================== -->
+  <section class="signoff">
+    <div class="kicker" style="margin-bottom:8px">epilog</div>
+    <p class="time">04:00</p>
+    <h2 style="margin-top:12px">Szmulki <span class="italic">śpią</span>.</h2>
+    <p class="lede">Ostatnie pierogi w lodówce. Termos został w bramie. Brzeska nie pozuje — Brzeska tylko patrzy.</p>
+    <p class="name">Emil</p>
+  </section>
+
+</div>
+
+</body></html>
