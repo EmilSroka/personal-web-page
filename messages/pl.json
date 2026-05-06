@@ -1,0 +1,74 @@
+{
+  "Hero": {
+    "kicker": "· Zaproszenie ·",
+    "title": "Parape­tówka",
+    "titleAccent": "na Szmulkach",
+    "subtitle": "Sobota, <date>20 czerwca</date> · Praga-Północ",
+    "altKoneser": "Kapibara idzie na parapetówkę przez Koneser, balony, Muzeum Wódki Polskiej w tle",
+    "altBrzeska": "Kapibara siedzi na Brzeskiej o 4 nad ranem, pali papierosa, tablica Brzeska Praga-Północ na ścianie"
+  },
+  "Intro": {
+    "p1": "Tuż przed przeprowadzką, idąc obok Konesera, podsłuchałem rozmowę starszego pana oprowadzającego dwójkę nastolatków: „No i tutaj, od Ząbkowskiej, zaczyna się warszawski Trójkąt Bermudzki. Stąd, od Brzeskiej aż po Targową”.",
+    "p2": "Jakieś miesiąc później zamknięto przejście podziemne na Targowej po odkryciu nielegalnego kasyna – tak, w przejściu podziemnym.",
+    "p3": "Dlatego oficjalnie zapraszamy Was do epicentrum zjawisk trudnych do wyjaśnienia, czyli na parape­tówkę na Szmulkach."
+  },
+  "Features": {
+    "food": { "title": "Jedzenie", "body": "Zamawiamy, nie gotujemy. Lorem ipsum dolor sit amet, consectetur." },
+    "time": { "title": "Godziny", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+    "before": { "title": "Przed", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod." },
+    "after": { "title": "Po", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+    "sleep": { "title": "Nocleg", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing." }
+  },
+  "Note": {
+    "whenStrong": "Sobota 20.06",
+    "whenRest": ", od 19:00",
+    "whereStrong": "Kijowska 17/3",
+    "whereRest": " · brama 2, klatka 2",
+    "phone": "Domofon kapryśny — dzwoń"
+  },
+  "Middle": {
+    "altJamnik": "Kapibara spaceruje przy Jamniku – najdłuższym bloku w Warszawie, wieczorem, Warszawa Wschodnia w tle",
+    "altCpn": "Dwie kapibary z zakupami przy stacji CPN na Ząbkowskiej, wieczorem",
+    "altAnioly": "Dwie kapibary robią selfie z Praskimi Aniołami, rzeźbami Marka Sułka, mural w tle",
+    "captionJamnik": "Jamnik – najdłuższy blok w Warszawie, wzniesiony w 1973 roku przez władze komunistyczne, aby zasłonić widok z Dworca Wschodniego na przedwojenną zabudowę Pragi, zwaną Szmulkami.",
+    "captionCpn": "Jedyna obecnie funkcjonująca stacja CPN znajduje się właśnie na Pradze. Prawa do marki posiada Orlen, który musi utrzymywać przynajmniej jedną placówkę, aby nie stracić praw do znaku towarowego.",
+    "captionAnioly": "Autorem tych nieco niepokojących rzeźb jest praski artysta – Marek Sułek. Gość zespałnował te rzeźby po całej Pradze. Serio – są wszędzie. Rozglądnijcie się po drodze, jeżeli skorzystacie z komunikacji miejskiej."
+  },
+  "WishList": {
+    "kicker": "Co przynieść",
+    "titlePart1": "Lista, którą można",
+    "titleAccent": "zaklepać",
+    "intro": "Klasyczna parapetówka kończy się trzema deskami do krojenia. Spróbujmy inaczej. Klikasz — bierzesz. Zmienisz zdanie — anulujesz."
+  },
+  "Gifts": {
+    "patelnia": { "title": "Patelnia żeliwna", "desc": "Ciężka jak sumienie. Przeżyje gospodarza." },
+    "zubrowka": { "title": "Żubrówka biała", "desc": "Klasyk parapetówkowy." },
+    "monstera": { "title": "Monstera deliciosa", "desc": "Wymaga światła i cierpliwości." },
+    "pled": { "title": "Pled wełniany", "desc": "Na wieczory szmulkowskie." },
+    "solChleb": { "title": "Sól i chleb", "desc": "Klucz do dobrobytu." },
+    "ottolenghi": { "title": "Książka kucharska Ottolenghiego", "desc": "Bo papryczki z Bazaru." },
+    "wlasne": { "title": "Coś własnego", "desc": "Nalewka babci, książka, doniczka. Cokolwiek." },
+    "priceFree": "— bezcenne"
+  },
+  "GiftActions": {
+    "claim": "Zaklepuję",
+    "cancel": "Anuluj",
+    "taken": "Zajęte",
+    "you": "Ty",
+    "priceFree": "— bezcenne",
+    "shopLink": "kup w sklepie",
+    "unlimited": "można dorzucić ile chcesz",
+    "slots": "{reserved} / {total} zaklepane",
+    "errorFull": "Ktoś właśnie to zaklepał — za późno! Wybierz coś innego.",
+    "errorGeneric": "Coś poszło nie tak. Spróbuj ponownie."
+  },
+  "Signoff": {
+    "kicker": "epilog",
+    "line": "Brzeska nie pozuje. Brzeska tylko patrzy."
+  },
+  "Lang": {
+    "pl": "PL",
+    "uk": "UA",
+    "switchLabel": "Język strony"
+  }
+}
