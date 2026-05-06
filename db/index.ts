@@ -12,7 +12,11 @@ const globalForDb = globalThis as unknown as {
 
 const client =
   globalForDb.client ??
-  postgres(process.env.DATABASE_URL, { prepare: false, max: 1 });
+  postgres(process.env.DATABASE_URL, {
+    prepare: false, // required for pgbouncer / Supabase pooler
+    max: 1,
+    ssl: "require",
+  });
 
 if (process.env.NODE_ENV !== "production") globalForDb.client = client;
 
