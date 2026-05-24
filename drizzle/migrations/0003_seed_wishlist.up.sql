@@ -52,7 +52,7 @@ INSERT INTO housewarming.gifts (id, title_pl, title_uk, desc_pl, desc_uk, price,
     '~ 120 zł',
     4,
     130,
-    'https://eu.aqara.com/en-eu/products/multi-state-sensor-p100',
+    'https://www.euro.com.pl/czujniki/aqara-p100-bialy.bhtml',
     NULL,
     NULL
   ),
