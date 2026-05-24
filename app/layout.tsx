@@ -22,6 +22,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: "Emil",
   description: " ",
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({

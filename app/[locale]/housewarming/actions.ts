@@ -14,6 +14,8 @@ export type GiftListItem = {
   price: string;
   quantity: number | null; // null = unlimited
   shopUrl: string | null;
+  altPrice: string | null;
+  altShopUrl: string | null;
   reservedCount: number;
   claimers: string[];
 };
@@ -29,6 +31,8 @@ export async function listGifts(): Promise<GiftListItem[]> {
       price: gifts.price,
       quantity: gifts.quantity,
       shopUrl: gifts.shopUrl,
+      altPrice: gifts.altPrice,
+      altShopUrl: gifts.altShopUrl,
       sortOrder: gifts.sortOrder,
       reservedCount: sql<number>`coalesce(count(${reservations.id}), 0)::int`,
       claimers: sql<string[]>`coalesce(array_agg(${reservations.claimer}) filter (where ${reservations.claimer} is not null), '{}')`,
@@ -43,18 +47,21 @@ export async function listGifts(): Promise<GiftListItem[]> {
 
 export type ReserveResult =
   | { ok: true }
-  | { ok: false; reason: "full" | "duplicate" | "not_found" | "invalid" };
+  | { ok: false; reason: "full" | "not_found" | "invalid" };
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+// Adds one reservation row. Each call is one atomic +1 unit. The transaction
+// counts after insert and rolls back if it would exceed `quantity`.
 export async function reserveGift(
   giftId: string,
   claimer: string,
 ): Promise<ReserveResult> {
   const trimmed = claimer.trim();
-  const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  if (!uuidRe.test(trimmed)) return { ok: false, reason: "invalid" };
+  if (!UUID_RE.test(trimmed)) return { ok: false, reason: "invalid" };
 
   try {
-    const result = await db.transaction(async (tx) => {
+    return await db.transaction(async (tx) => {
       const [gift] = await tx
         .select({ quantity: gifts.quantity })
         .from(gifts)
@@ -72,22 +79,22 @@ export async function reserveGift(
           .where(eq(reservations.giftId, giftId));
 
         if (count > gift.quantity) {
-          // Roll back: too late, gift just filled up.
           throw new ReserveLimitExceeded();
         }
       }
 
+      revalidatePath("/[locale]/housewarming", "page");
       return { ok: true } as const;
     });
-    revalidatePath("/[locale]/housewarming", "page");
-    return result;
   } catch (e) {
     if (e instanceof ReserveLimitExceeded) return { ok: false, reason: "full" };
-    if (isUniqueViolation(e)) return { ok: false, reason: "duplicate" };
     throw e;
   }
 }
 
+// Removes exactly one reservation row for this gift/claimer. SELECT FOR UPDATE
+// LIMIT 1 + DELETE by id makes concurrent − clicks safe — each cancels at most
+// the row it locked.
 export async function cancelReservation(
   giftId: string,
   claimer: string,
@@ -95,22 +102,22 @@ export async function cancelReservation(
   const trimmed = claimer.trim();
   if (!trimmed) return { ok: false };
 
-  const deleted = await db
-    .delete(reservations)
-    .where(and(eq(reservations.giftId, giftId), eq(reservations.claimer, trimmed)))
-    .returning({ id: reservations.id });
+  const result = await db.transaction(async (tx) => {
+    const [row] = await tx
+      .select({ id: reservations.id })
+      .from(reservations)
+      .where(and(eq(reservations.giftId, giftId), eq(reservations.claimer, trimmed)))
+      .limit(1)
+      .for("update");
 
-  if (deleted.length > 0) revalidatePath("/[locale]/housewarming", "page");
-  return { ok: deleted.length > 0 };
+    if (!row) return { ok: false };
+
+    await tx.delete(reservations).where(eq(reservations.id, row.id));
+    return { ok: true };
+  });
+
+  if (result.ok) revalidatePath("/[locale]/housewarming", "page");
+  return result;
 }
 
 class ReserveLimitExceeded extends Error {}
-
-function isUniqueViolation(e: unknown): boolean {
-  return (
-    typeof e === "object" &&
-    e !== null &&
-    "code" in e &&
-    (e as { code: string }).code === "23505"
-  );
-}
