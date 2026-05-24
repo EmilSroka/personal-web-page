@@ -1,13 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { cancelReservation, listGifts, reserveGift, type GiftListItem } from "./actions";
 import styles from "./housewarming.module.css";
 
 const VISITOR_KEY = "housewarming:visitor";
 const GIFTS_KEY = ["gifts"];
+const POLL_INTERVAL_MS = 5000;
+
+// Image files live at /public/housewarming/wishlist/<id>.<ext>. Most are .jpg;
+// the three IDs below were saved as .png (transparent product shots).
+const PNG_IDS = new Set([
+  "46058ee4-2bdc-4ae9-b821-1789f96c8634", // Miska Tumbled
+  "a3dd14af-7189-42e5-b83a-55b18718f5b7", // HOTO AutoCare
+  "c1ed7dbf-a69b-42e3-9d38-d1cba74141c0", // Aqara P100
+]);
+const imageSrc = (id: string) =>
+  `/housewarming/wishlist/${id}.${PNG_IDS.has(id) ? "png" : "jpg"}`;
 
 function generateUUID(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
@@ -31,17 +43,50 @@ export default function GiftList({
   locale: string;
 }) {
   const t = useTranslations("GiftActions");
+  const tWish = useTranslations("WishList");
   const queryClient = useQueryClient();
   const [visitorId, setVisitorId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => { setVisitorId(getVisitorId()); }, []);
 
+  // Poll every 5s only while the list is in view AND the tab is visible.
+  // Two independent gates feeding one boolean: IntersectionObserver for
+  // viewport, document `visibilitychange` for tab focus. Driving
+  // `refetchInterval` from JS state means the interval is literally `false`
+  // when off — RQ can't poll. `refetchIntervalInBackground: false` stays as
+  // belt-and-suspenders for browsers where the events misfire.
+  const listRef = useRef<HTMLUListElement>(null);
+  const [isInView, setIsInView] = useState(false);
+  const [isDocVisible, setIsDocVisible] = useState(true);
+
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0.01 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const update = () => setIsDocVisible(document.visibilityState === "visible");
+    update();
+    document.addEventListener("visibilitychange", update);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, []);
+
+  const shouldPoll = isInView && isDocVisible;
+
   const { data: gifts } = useQuery({
     queryKey: GIFTS_KEY,
     queryFn: listGifts,
     initialData: initialGifts,
-    initialDataUpdatedAt: 0, // treat server data as immediately stale → refetch on focus
+    initialDataUpdatedAt: 0,
+    refetchInterval: shouldPoll ? POLL_INTERVAL_MS : false,
+    refetchIntervalInBackground: false,
   });
 
   const mutation = useMutation({
@@ -60,8 +105,23 @@ export default function GiftList({
       queryClient.setQueryData<GiftListItem[]>(GIFTS_KEY, (old = []) =>
         old.map((g) => {
           if (g.id !== giftId || !visitorId) return g;
-          if (type === "reserve") return { ...g, reservedCount: g.reservedCount + 1, claimers: [...g.claimers, visitorId] };
-          return { ...g, reservedCount: Math.max(0, g.reservedCount - 1), claimers: g.claimers.filter((c) => c !== visitorId) };
+          if (type === "reserve") {
+            return {
+              ...g,
+              reservedCount: g.reservedCount + 1,
+              claimers: [...g.claimers, visitorId],
+            };
+          }
+          // cancel: drop a single occurrence of my id
+          const idx = g.claimers.indexOf(visitorId);
+          if (idx === -1) return g;
+          const claimers = g.claimers.slice();
+          claimers.splice(idx, 1);
+          return {
+            ...g,
+            reservedCount: Math.max(0, g.reservedCount - 1),
+            claimers,
+          };
         }),
       );
       return { prev };
@@ -74,8 +134,10 @@ export default function GiftList({
     onSettled: () => queryClient.invalidateQueries({ queryKey: GIFTS_KEY }),
   });
 
-  const isMine = (g: GiftListItem) => !!visitorId && g.claimers.includes(visitorId);
-  const isFull = (g: GiftListItem) => g.quantity !== null && g.reservedCount >= g.quantity;
+  const myCountOf = (g: GiftListItem) =>
+    visitorId ? g.claimers.filter((c) => c === visitorId).length : 0;
+  const isFull = (g: GiftListItem) =>
+    g.quantity !== null && g.reservedCount >= g.quantity;
 
   const title = (g: GiftListItem) => locale === "uk" ? g.titleUk : g.titlePl;
   const desc  = (g: GiftListItem) => locale === "uk" ? g.descUk  : g.descPl;
@@ -83,16 +145,27 @@ export default function GiftList({
 
   return (
     <>
+      <p className={styles.deviceLocalNote}>{tWish("deviceLocalNote")}</p>
       {error && <p className={styles.errorBanner}>{error}</p>}
 
-      <ul className="list-none p-0 m-0">
+      <ul ref={listRef} className="list-none p-0 m-0">
         {gifts.map((g) => {
-          const mine = isMine(g);
+          const mine = myCountOf(g);
           const full = isFull(g);
-          const takenByOther = full && !mine;
+          const takenByOther = full && mine === 0;
 
           return (
             <li key={g.id} className={`${styles.giftCard} ${takenByOther ? styles.taken : ""}`}>
+              <div className={styles.giftImage}>
+                <Image
+                  src={imageSrc(g.id)}
+                  alt={title(g)}
+                  fill
+                  sizes="(max-width: 540px) 64px, 96px"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
+
               <div className={styles.giftBody}>
                 <span className={styles.giftTitle}>{title(g)}</span>
                 <span className={styles.giftMeta}>
@@ -106,7 +179,6 @@ export default function GiftList({
                   ) : (
                     <span className={styles.giftSlots}>
                       {t("slots", { reserved: g.reservedCount, total: g.quantity })}
-                      {mine && <> · <strong>{t("you")}</strong></>}
                     </span>
                   )}
                   {g.shopUrl && (
@@ -114,19 +186,48 @@ export default function GiftList({
                       {t("shopLink")} ↗
                     </a>
                   )}
+                  {g.altShopUrl && g.altPrice && (
+                    <a href={g.altShopUrl} target="_blank" rel="noopener noreferrer" className={styles.altLink}>
+                      {t("alternative")} • {g.altPrice} ↗
+                    </a>
+                  )}
                 </span>
               </div>
 
-              <button
-                type="button"
-                className={`${styles.btn} ${mine ? styles.claimed : ""}`}
-                disabled={takenByOther || mutation.isPending || !visitorId}
-                onClick={() =>
-                  mutation.mutate({ type: mine ? "cancel" : "reserve", giftId: g.id })
-                }
-              >
-                {takenByOther ? t("taken") : mine ? t("cancel") : t("claim")}
-              </button>
+              <div className={styles.giftAction}>
+                {mine === 0 ? (
+                  <button
+                    type="button"
+                    className={styles.btn}
+                    disabled={takenByOther || !visitorId}
+                    onClick={() => mutation.mutate({ type: "reserve", giftId: g.id })}
+                  >
+                    {takenByOther ? t("taken") : t("claim")}
+                  </button>
+                ) : (
+                  <div className={styles.counter} role="group" aria-label={t("claim")}>
+                    <button
+                      type="button"
+                      className={styles.counterBtn}
+                      aria-label={t("removeOne")}
+                      disabled={!visitorId}
+                      onClick={() => mutation.mutate({ type: "cancel", giftId: g.id })}
+                    >
+                      −
+                    </button>
+                    <span className={styles.counterCount} aria-live="polite">{mine}</span>
+                    <button
+                      type="button"
+                      className={styles.counterBtn}
+                      aria-label={t("addOne")}
+                      disabled={full || !visitorId}
+                      onClick={() => mutation.mutate({ type: "reserve", giftId: g.id })}
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
+              </div>
             </li>
           );
         })}

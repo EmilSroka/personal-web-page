@@ -28,6 +28,8 @@ export const gifts = housewarming.table(
     quantity: integer(),
     sortOrder: integer("sort_order").default(0).notNull(),
     shopUrl: text("shop_url"),
+    altPrice: text("alt_price"),
+    altShopUrl: text("alt_shop_url"),
   },
   () => [
     check("gifts_quantity_check", sql`(quantity IS NULL) OR (quantity >= 1)`),
@@ -58,6 +60,30 @@ export const reservations = housewarming.table(
       foreignColumns: [gifts.id],
       name: "reservations_gift_id_fkey",
     }).onDelete("cascade"),
-    unique("reservations_gift_id_claimer_key").on(table.giftId, table.claimer),
+  ],
+);
+
+export const rsvps = housewarming.table(
+  "rsvps",
+  {
+    id: uuid().defaultRandom().primaryKey().notNull(),
+    visitorId: text("visitor_id").notNull(),
+    name: text().notNull(),
+    choice: text().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    check("rsvps_choice_check", sql`choice IN ('main', 'alt', 'no')`),
+    unique("rsvps_visitor_id_key").on(table.visitorId),
+    index("rsvps_choice_idx").using(
+      "btree",
+      table.choice.asc().nullsLast().op("text_ops"),
+    ),
+    index("rsvps_created_at_idx").using(
+      "btree",
+      table.createdAt.asc().nullsLast(),
+    ),
   ],
 );

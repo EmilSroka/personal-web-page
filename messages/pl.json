@@ -3,7 +3,7 @@
     "kicker": "· Zaproszenie ·",
     "title": "Parape­tówka",
     "titleAccent": "na Szmulkach",
-    "subtitle": "Sobota, <date>20 czerwca</date> · Praga-Północ",
+    "subtitle": "Sobota, <date>18 lipca</date> · Praga-Północ",
     "altKoneser": "Kapibara idzie na parapetówkę przez Koneser, balony, Muzeum Wódki Polskiej w tle",
     "altBrzeska": "Kapibara siedzi na Brzeskiej o 4 nad ranem, pali papierosa, tablica Brzeska Praga-Północ na ścianie"
   },
@@ -13,18 +13,40 @@
     "p3": "Dlatego oficjalnie zapraszamy Was do epicentrum zjawisk trudnych do wyjaśnienia, czyli na parape­tówkę na Szmulkach."
   },
   "Features": {
-    "food": { "title": "Jedzenie", "body": "Zamawiamy, nie gotujemy. Lorem ipsum dolor sit amet, consectetur." },
-    "time": { "title": "Godziny", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-    "before": { "title": "Przed", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod." },
-    "after": { "title": "Po", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-    "sleep": { "title": "Nocleg", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing." }
+    "termin":      { "title": "Termin",            "body": "Zapraszam wszystkich w sobotę <b>18.07</b> na <b>Ząbkowska 41, klatka B</b> (od ulicy Tarchomińskiej), <b>mieszkanie 54</b>. Tych, którzy nie mogą - zapraszam w sobotę <b>13.06</b> na bardziej kameralną „posiadówkę parapetową”. A jeżeli ktoś nie da rady na żaden termin, a chce przyjść w gości, zaznaczcie poniżej, to będziemy zapraszać indywidualnie." },
+    "before":      { "title": "Before!",           "body": "Nie planujemy niczego zorganizowanego, natomiast w okolicy znajduje się <koneser>Koneser</koneser>, restauracje i bary na <zabkowska>Ząbkowskiej od strony Targowej</zabkowska> oraz <wodka>Muzeum Wódki Polskiej</wodka>." },
+    "dojazd":      { "title": "Dojazd",            "body": "<metro>Metro M2</metro> + <b>10-15 min</b> spacerek, <dworzec>Dworzec Wschodni</dworzec> + <b>5-10 min</b> spacerek, <markowska>przystanek Markowska</markowska> + <b>3-5 min</b> spacerek, lub uberek." },
+    "parking":     { "title": "Miejsca parkingowe","body": "Na poboczu w Strefie Płatnego Parkowania, lub <zabPark>płatny parking na Ząbkowskiej</zabPark>, albo na <radPark>Radzymińskiej</radPark>. Jest też jedno miejsce w garażu budynku, raczej z węższych - jak ktoś by chciał zostawić, to DM." },
+    "start":       { "title": "Start",             "body": "Od <b>19:00</b>." },
+    "food":        { "title": "Jedzenie i napoje", "body": "Drinki, napoje, słone (a może nawet i słodkie) przekąski, grab & go, pizza." },
+    "attractions": { "title": "Atrakcje",          "body": "Godzinna oprowadzka po 60-metrowym mieszkaniu, shisha, a nawet pokaz sztuczek karcianych (być może, zobaczymy, czas pokaże)." },
+    "sleep":       { "title": "Nocleg",            "body": "Jak ktoś potrzebuje przenocować, to coś ogarniemy." },
+    "after":       { "title": "After",             "body": "Też nic nie planujemy w tym momencie, ale wiadomo jak to jest." }
   },
   "Note": {
-    "whenStrong": "Sobota 20.06",
+    "whenStrong": "Sobota 18.07",
     "whenRest": ", od 19:00",
-    "whereStrong": "Kijowska 17/3",
-    "whereRest": " · brama 2, klatka 2",
+    "whereStrong": "Ząbkowska 41",
+    "whereRest": " · klatka B, m. 54",
     "phone": "Domofon kapryśny — dzwoń"
+  },
+  "Rsvp": {
+    "kicker": "· RSVP ·",
+    "title": "Daj znać, czy będziesz",
+    "intro": "Pomoże nam to lepiej zorganizować imprezę!",
+    "options": {
+      "main": "Wbijam 18.07 (główny termin)",
+      "alt": "Wbijam 13.06 (posiadówka parapetowa)",
+      "no": "Nie dam rady, ale chcę dostać zaszczytne, personalne zaproszenie na piwo / obiad / planszówki w innym terminie"
+    },
+    "nameLabel": "Kto?",
+    "namePlaceholder": "Konrad, Dagmara z Damianem, Henry z +1…",
+    "submit": "Wyślij",
+    "submitting": "Wysyłam…",
+    "thanks": "Dzięki! Do zobaczenia.",
+    "thanksNo": "Dzięki! Odezwę się indywidualnie.",
+    "changeAnswer": "Zmień odpowiedź",
+    "error": "Coś poszło nie tak. Spróbuj jeszcze raz."
   },
   "Middle": {
     "altJamnik": "Kapibara spaceruje przy Jamniku – najdłuższym bloku w Warszawie, wieczorem, Warszawa Wschodnia w tle",
@@ -36,9 +58,9 @@
   },
   "WishList": {
     "kicker": "Co przynieść",
-    "titlePart1": "Lista, którą można",
-    "titleAccent": "zaklepać",
-    "intro": "Klasyczna parapetówka kończy się trzema deskami do krojenia. Spróbujmy inaczej. Klikasz — bierzesz. Zmienisz zdanie — anulujesz."
+    "title": "Wishlist",
+    "intro": "Jeżeli zamierzacie coś kupić w prezencie, to częstujcie się przygotowaną Wishlistą. Smacznego!",
+    "deviceLocalNote": "Rezerwacja zapisywana jest tylko w tej przeglądarce. Wyczyszczenie danych przeglądarki uniemożliwi jej cofnięcie."
   },
   "Gifts": {
     "patelnia": { "title": "Patelnia żeliwna", "desc": "Ciężka jak sumienie. Przeżyje gospodarza." },
@@ -57,6 +79,9 @@
     "you": "Ty",
     "priceFree": "— bezcenne",
     "shopLink": "kup w sklepie",
+    "alternative": "Alternatywnie",
+    "addOne": "Zaklep kolejny",
+    "removeOne": "Zwolnij jeden",
     "unlimited": "można dorzucić ile chcesz",
     "slots": "{reserved} / {total} zaklepane",
     "errorFull": "Ktoś właśnie to zaklepał — za późno! Wybierz coś innego.",

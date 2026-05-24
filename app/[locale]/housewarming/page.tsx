@@ -7,7 +7,44 @@ import QueryProvider from "./QueryProvider";
 import { listGifts } from "./actions";
 import LangSwitch from "./LangSwitch";
 import Carousel from "./Carousel";
+import RsvpForm from "./RsvpForm";
 import styles from "./housewarming.module.css";
+
+// External links referenced from the numbered Features section. Kept in this
+// file because they don't translate — only the surrounding copy does.
+const MAP_LINKS = {
+  koneser:    "https://maps.app.goo.gl/VXKceVtstobToh7H8",
+  zabkowska:  "https://maps.app.goo.gl/KwRuSRrLyXjLJn9LA",
+  wodka:      "https://maps.app.goo.gl/B1qgbyHqvmFPWiQu9",
+  metro:      "https://maps.app.goo.gl/BzziaurqHzJbYEpo6",
+  dworzec:    "https://maps.app.goo.gl/CDFDsvUUDbSsU7k9A",
+  markowska:  "https://maps.app.goo.gl/j9cMtK7S8opa7zf26",
+  zabPark:    "https://en.parkopedia.pl/parking/carpark/ul_z%C4%85bkowska_8/03/warszawa/",
+  radPark:    "https://en.parkopedia.pl/parking/carpark/ul_radzymi%C5%84ska/03/warszawa/",
+} as const;
+
+type FeatureKey =
+  | "termin" | "before" | "dojazd" | "parking"
+  | "start" | "food" | "attractions" | "sleep" | "after";
+
+// "before" and "after" are intentionally omitted — their i18n keys remain in
+// messages/{pl,uk}.json so they can be re-added to this list without copy work.
+const FEATURES: readonly FeatureKey[] = [
+  "termin", "dojazd", "parking",
+  "start", "food", "attractions", "sleep",
+];
+
+const FEATURE_EMOJIS: Record<FeatureKey, string> = {
+  termin:      "📅",
+  before:      "🍻",
+  dojazd:      "🚇",
+  parking:     "🅿️",
+  start:       "🕖",
+  food:        "🍕",
+  attractions: "🃏",
+  sleep:       "🛌",
+  after:       "🌅",
+};
 
 export async function generateMetadata({
   params,
@@ -35,22 +72,6 @@ const CalendarIcon = (
     <path d="M3 10h18M8 3v4M16 3v4"/>
   </svg>
 );
-
-const PhoneIcon = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
-  </svg>
-);
-
-// ── feature items ────────────────────────────────────────────────────────────
-const FEATURE_EMOJIS: Record<string, string> = {
-  food: "🍽️",
-  time: "🕐",
-  before: "🧳",
-  after: "🎊",
-  sleep: "🛌",
-};
 
 export default async function Page({
   params,
@@ -120,16 +141,26 @@ export default async function Page({
         <p className={styles.lede}>{t("Intro.p3")}</p>
       </section>
 
-      {/* ── FEATURES: emoji-float list, same width as lede ── */}
+      {/* ── FEATURES: numbered details ── */}
       <section className={styles.features}>
         <ul className={styles.featuresList}>
-          {(["food", "time", "before", "after", "sleep"] as const).map((id) => (
+          {FEATURES.map((id) => (
             <li key={id} className={styles.feature}>
-              <span className={styles.featureEmoji} aria-hidden>
-                {FEATURE_EMOJIS[id]}
-              </span>
+              <span className={styles.featureEmoji} aria-hidden>{FEATURE_EMOJIS[id]}</span>
               <h3 className={styles.featureTitle}>{t(`Features.${id}.title`)}</h3>
-              <p className={styles.featureBody}>{t(`Features.${id}.body`)}</p>
+              <p className={styles.featureBody}>
+                {t.rich(`Features.${id}.body`, {
+                  b:         (chunks) => <b>{chunks}</b>,
+                  koneser:   (chunks) => <a href={MAP_LINKS.koneser}   target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  zabkowska: (chunks) => <a href={MAP_LINKS.zabkowska} target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  wodka:     (chunks) => <a href={MAP_LINKS.wodka}     target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  metro:     (chunks) => <a href={MAP_LINKS.metro}     target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  dworzec:   (chunks) => <a href={MAP_LINKS.dworzec}   target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  markowska: (chunks) => <a href={MAP_LINKS.markowska} target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  zabPark:   (chunks) => <a href={MAP_LINKS.zabPark}   target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                  radPark:   (chunks) => <a href={MAP_LINKS.radPark}   target="_blank" rel="noopener noreferrer">{chunks}</a>,
+                })}
+              </p>
             </li>
           ))}
         </ul>
@@ -154,14 +185,13 @@ export default async function Page({
                   {t("Note.whereRest")}
                 </span>
               </div>
-              <div className={styles.noteRow}>
-                {PhoneIcon}
-                <span>{t("Note.phone")}</span>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ── RSVP ── */}
+      <RsvpForm />
 
       {/* ── CAROUSEL ── */}
       <Carousel slides={carouselSlides} />
@@ -172,7 +202,7 @@ export default async function Page({
           <header className={styles.listHead}>
             <p className={styles.kicker}>{t("WishList.kicker")}</p>
             <h2 className={styles.h2}>
-              {t("WishList.titlePart1")} <em>{t("WishList.titleAccent")}</em>.
+              <em>{t("WishList.title")}</em>
             </h2>
             <p className={styles.listIntro}>{t("WishList.intro")}</p>
           </header>
