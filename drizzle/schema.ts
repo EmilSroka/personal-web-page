@@ -75,7 +75,7 @@ export const rsvps = housewarming.table(
       .notNull(),
   },
   (table) => [
-    check("rsvps_choice_check", sql`choice IN ('main', 'alt', 'no')`),
+    check("rsvps_choice_check", sql`choice IN ('main', 'alt', 'both', 'no')`),
     unique("rsvps_visitor_id_key").on(table.visitorId),
     index("rsvps_choice_idx").using(
       "btree",

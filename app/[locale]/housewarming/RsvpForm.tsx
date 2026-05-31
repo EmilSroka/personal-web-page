@@ -8,7 +8,7 @@ import styles from "./housewarming.module.css";
 // Same key as GiftList — one visitor identity per browser is used for both gift
 // reservations and the RSVP upsert target.
 const VISITOR_KEY = "housewarming:visitor";
-const CHOICES = ["main", "alt", "no"] as const;
+const CHOICES = ["main", "alt", "both", "no"] as const;
 
 function generateUUID(): string {
   if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();

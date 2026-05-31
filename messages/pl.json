@@ -37,6 +37,7 @@
     "options": {
       "main": "Wbijam 18.07 (główny termin)",
       "alt": "Wbijam 13.06 (posiadówka parapetowa)",
+      "both": "Wbijam na oba terminy 18.07 oraz 13.06",
       "no": "Nie dam rady, ale chcę dostać zaszczytne, personalne zaproszenie na piwo / obiad / planszówki w innym terminie"
     },
     "nameLabel": "Kto?",
@@ -94,6 +95,8 @@
   "Lang": {
     "pl": "PL",
     "uk": "UA",
+    "ar": "AR",
+    "he": "HE",
     "switchLabel": "Język strony"
   }
 }
