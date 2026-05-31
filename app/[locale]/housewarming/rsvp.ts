@@ -4,9 +4,9 @@ import { eq } from "drizzle-orm";
 import { db } from "../../../db";
 import { rsvps } from "../../../drizzle/schema";
 
-export type RsvpChoice = "main" | "alt" | "no";
+export type RsvpChoice = "main" | "alt" | "both" | "no";
 
-const VALID_CHOICES: ReadonlySet<RsvpChoice> = new Set(["main", "alt", "no"]);
+const VALID_CHOICES: ReadonlySet<RsvpChoice> = new Set(["main", "alt", "both", "no"]);
 const MAX_NAME_LEN = 200;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
